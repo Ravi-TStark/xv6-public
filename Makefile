@@ -181,9 +181,9 @@ UPROGS=\
 	_usertests\
 	_wc\
 	_zombie\
-	_foo\
+	_cp\
 	_ps\
-	_process_generator\
+	_dummyprocess\
 
 fs.img: mkfs README $(UPROGS)
 	./mkfs fs.img README $(UPROGS)
