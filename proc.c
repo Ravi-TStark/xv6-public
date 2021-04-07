@@ -87,6 +87,7 @@ allocproc(void)
 
 found:
   p->state = EMBRYO;
+  p->priority = 2;
   p->pid = nextpid++;
 
   release(&ptable.lock);
@@ -523,7 +524,7 @@ procdump(void)
       state = states[p->state];
     else
       state = "???";
-    cprintf("%d %s %s", p->pid, state, p->name);
+    cprintf("%d %s %s %d", p->pid, state, p->name, p->priority);
     if(p->state == SLEEPING){
       getcallerpcs((uint*)p->context->ebp+2, pc);
       for(i=0; i<10 && pc[i] != 0; i++)
@@ -531,4 +532,20 @@ procdump(void)
     }
     cprintf("\n");
   }
+}
+
+int
+changepriority(int pid, int new_priority)
+{
+    struct proc *p;
+    for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+      if(p->pid == pid){
+        if(new_priority >= 0 && new_priority < 6){
+          p->priority = new_priority;
+          return 1;
+          break;
+        }
+      }
+    }
+    return 0;
 }

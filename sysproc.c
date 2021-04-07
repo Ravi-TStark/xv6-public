@@ -89,3 +89,20 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+
+int 
+sys_procdump(void)
+{
+  procdump();
+
+  return 0;
+}
+
+int
+sys_changepriority(int pid, int new_priority){
+
+   argint(0,&pid); 
+   argint(1,&new_priority); 
+
+  return changepriority(pid, new_priority);
+}
